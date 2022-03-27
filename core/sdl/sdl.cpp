@@ -43,6 +43,8 @@ static SDL_Rect windowPos { SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WI
 static bool gameRunning;
 static bool mouseCaptured;
 static std::string clipboardText;
+bool threadCreated = false;
+bool toggleQuit = false;
 
 static void sdl_open_joystick(int index)
 {
@@ -220,6 +222,20 @@ inline void SDLMouse::setAbsPos(int x, int y) {
 
 void input_sdl_handle()
 {
+	if(!threadCreated)
+	{
+		std::thread sdl_input_thread(&SDL_InputThread);
+		sdl_input_thread.detach();
+	}
+}
+
+void SDL_InputThread()
+{
+	threadCreated = true;
+
+	while(!toggleQuit)
+	{
+
 	SDLGamepad::UpdateRumble();
 
 	SDL_Event event;
@@ -228,7 +244,7 @@ void input_sdl_handle()
 		switch (event.type)
 		{
 			case SDL_QUIT:
-				dc_exit();
+				toggleQuit = true;
 				break;
 
 			case SDL_KEYDOWN:
@@ -415,6 +431,8 @@ void input_sdl_handle()
 				break;
 		}
 	}
+
+	} // while !toggleQuit
 }
 
 void sdl_window_set_text(const char* text)

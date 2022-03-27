@@ -36,11 +36,11 @@
 #include "win_keyboard.h"
 #include "log/LogManager.h"
 #include "wsi/context.h"
-#if defined(USE_SDL)
+//#if defined(USE_SDL)
 #include "sdl/sdl.h"
-#else
+//#else
 #include "xinput_gamepad.h"
-#endif
+//#endif
 #include "hw/maple/maple_devs.h"
 #include "emulator.h"
 #include "rend/mainui.h"
@@ -203,14 +203,14 @@ static void checkRawInput()
 
 void os_SetupInput()
 {
-#if defined(USE_SDL)
+//#if defined(USE_SDL)
 	input_sdl_init();
-#else
-	XInputGamepadDevice::CreateDevices();
-	EventManager::listen(Event::Pause, emuEventCallback);
-	EventManager::listen(Event::Resume, emuEventCallback);
-	checkRawInput();
-#endif
+//#else
+//	XInputGamepadDevice::CreateDevices();
+//	EventManager::listen(Event::Pause, emuEventCallback);
+//	EventManager::listen(Event::Resume, emuEventCallback);
+//	checkRawInput();
+//#endif
 #ifndef TARGET_UWP
 	if (config::UseRawInput)
 		rawinput::init();
@@ -259,16 +259,16 @@ static void setupPath()
 
 void UpdateInputState()
 {
-#if defined(USE_SDL)
+//#if defined(USE_SDL)
 	input_sdl_handle();
-#else
-	for (int port = 0; port < 4; port++)
-	{
-		std::shared_ptr<XInputGamepadDevice> gamepad = XInputGamepadDevice::GetXInputDevice(port);
-		if (gamepad != nullptr)
-			gamepad->ReadInput();
-	}
-#endif
+//#else
+//	for (int port = 0; port < 4; port++)
+//	{
+//		std::shared_ptr<XInputGamepadDevice> gamepad = XInputGamepadDevice::GetXInputDevice(port);
+//		if (gamepad != nullptr)
+//			gamepad->ReadInput();
+//	}
+//#endif
 }
 
 static HWND hWnd;

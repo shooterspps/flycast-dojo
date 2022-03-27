@@ -8,3 +8,5 @@ void sdl_window_create();
 void sdl_window_set_text(const char* text);
 void sdl_window_destroy();
 bool sdl_recreate_window(u32 flags);
+
+void SDL_InputThread();
