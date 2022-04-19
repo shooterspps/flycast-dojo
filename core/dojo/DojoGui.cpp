@@ -1067,6 +1067,33 @@ void DojoGui::show_last_inputs_overlay()
 	{
 		if (!dojo.displayed_inputs[di].empty())
 		{
+			if (dojo.displayed_inputs[di].size() > 50)
+			{
+				{
+					auto it = dojo.displayed_inputs[di].begin()->first;
+					dojo.displayed_inputs[di].erase(it);
+				}
+
+				{
+					auto it = dojo.displayed_inputs_str[di].begin()->first;
+					dojo.displayed_inputs_str[di].erase(it);
+				}
+
+				{
+					auto it = dojo.displayed_dirs_str[di].begin()->first;
+					dojo.displayed_dirs_str[di].erase(it);
+				}
+
+				{
+					auto it = dojo.displayed_inputs_duration[di].begin()->first;
+					dojo.displayed_inputs_duration[di].erase(it);
+				}
+
+				{
+					auto it = dojo.displayed_num_dirs[di].begin()->first;
+					dojo.displayed_num_dirs[di].erase(it);
+				}
+			}
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
